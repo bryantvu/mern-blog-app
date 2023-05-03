@@ -8,6 +8,9 @@ import Navbar from "scenes/navbar";
 // import MyPostWidget from "scenes/widgets/MyPostWidget";
 // import PostsWidget from "scenes/widgets/PostsWidget";
 // import UserWidget from "scenes/widgets/UserWidget";
+import TitleImageWidget from "scenes/widgets/TitleImageWidget";
+import BlogHeaderWidget from "scenes/widgets/BlogHeaderWidget";
+import CommentsWidget from "scenes/widgets/CommentsWidget";
 
 const BlogPage = () => {
     const { blogId } = useParams();
@@ -19,7 +22,7 @@ const BlogPage = () => {
      *  elements of ReactMarkdown
      * */
     const CustomImgComponent = ({ node, ...props }) => (
-        <img {...props} style={{ maxWidth: "100%", height: "auto" }} />
+        <img {...props} style={{ maxWidth: "100%", height: "auto" }} alt={node.alt || ""} />
     );
 
     const getBlogPost = async () => {
@@ -28,14 +31,14 @@ const BlogPage = () => {
                 method: "GET",
                 headers: {
                     Authorization: `Bearer ${token}`,
-                    "Content-type": "text/html"
+                    "Content-type": "application/json"
                 }
             });
-            const contents = await response.text();
+            const contents = await response.json();
             setPostContent(contents);
             // console.log(contents);
         } catch (err) {
-            console.err(`err >> ${err}`);
+            console.error(`err >> ${err}`);
         }
     };
 
@@ -46,6 +49,22 @@ const BlogPage = () => {
     return (
         <Box>
             <Navbar />
+            {postContent && (
+                <>
+                    <TitleImageWidget
+                        title={false}
+                        imagePath={postContent.post.picturePath}
+                    />
+                    <BlogHeaderWidget
+                        postId={postContent.post._id}
+                        title={postContent.post.title}
+                        likes={postContent.post.likes}
+                        comments={postContent.post.comments}
+                        createdAt={postContent.post.createdAt}
+                    />
+                </>
+
+            )}
             <Box
                 width="100%"
                 padding="2rem 6%"
@@ -60,10 +79,13 @@ const BlogPage = () => {
                     overflowwrap="break-word"
                 >
                     <ReactMarkdown components={{ img: CustomImgComponent }}>
-                        {postContent}
+                        {postContent && (postContent.data)}
                     </ReactMarkdown>
                 </Box>
-            </Box>
+            </Box>{postContent && (
+                <CommentsWidget comments={postContent.post.comments} />
+            )}
+
         </Box>
     );
 };

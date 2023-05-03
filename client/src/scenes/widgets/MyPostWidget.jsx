@@ -57,7 +57,7 @@ const MyPostWidget = ({ picturePath }) => {
             setImage(null);
             setPost("")
         } catch (err) {
-            console.err(`err >> ${err}`);
+            console.error(`err >> ${err}`);
         }
     };
 

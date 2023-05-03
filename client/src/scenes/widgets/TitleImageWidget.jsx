@@ -33,16 +33,21 @@ import {
 import Dropzone from "react-dropzone";
 import { setTitleState } from "state";
 
-const TitleImageWidget = () => {
+const TitleImageWidget = ({
+    title,
+    imagePath,
+}) => {
 
     const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
     const [uploadImage, setUploadImage] = useState(false);
     const [imageEdit, setImageEdit] = useState(null);
     const [titleEdit, setTitleEdit] = useState("");
+    const [refreshCounter, setRefreshCounter] = useState(0);
 
     const stateTitle = useSelector((state) => state.title);
     const token = useSelector((state) => state.token);
+    const user = useSelector((state) => state.user);
 
     const dispatch = useDispatch();
     const theme = useTheme();
@@ -65,7 +70,7 @@ const TitleImageWidget = () => {
             const newTitle = await response.json();
             dispatch(setTitleState({ newTitle }));
         } catch (err) {
-            console.err(`err >> ${err}`);
+            console.error(`err >> ${err}`);
         }
     };
 
@@ -90,8 +95,9 @@ const TitleImageWidget = () => {
             setImageEdit(null);
             setTitleEdit("");
             handleDialogClose();
+            setRefreshCounter(refreshCounter + 1);
         } catch (err) {
-            console.err(`err >> ${err}`);
+            console.error(`err >> ${err}`);
         }
     };
 
@@ -119,23 +125,26 @@ const TitleImageWidget = () => {
 
     useEffect(() => {
         getTitle();
-    }, []);
+    }, [refreshCounter]); //eslint-disable-line react-hooks/exhaustive-deps
 
     return (
-        <FlexBetween display="grid !important" backgroundColor={alt}>
+        <Box
+            display="flex"
+            justifyContent="center"
+            backgroundColor={alt}
+
+        >
             <FlexBetween
                 overflow="hidden"
                 sx={{ maxHeight: `${imgHeight}` }}
                 position="relative"
             >
-                {stateTitle.picturePath && (
-                    <img
-                        width="100%"
-                        height="auto"
-                        alt="post"
-                        src={`http://localhost:3001/assets/${stateTitle.picturePath}`}
-                    />
-                )}
+                <img
+                    width="100%"
+                    height="auto"
+                    alt="post"
+                    src={`http://localhost:3001/assets/${imagePath ?? stateTitle.picturePath}`}
+                />
                 <Typography
                     position="absolute"
                     height="100%"
@@ -150,19 +159,22 @@ const TitleImageWidget = () => {
                         textShadow: "2px 2px 0 #000, -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000"
                     }}
                 >
-                    {stateTitle.title}
+                    {title ? stateTitle.title : ""}
                 </Typography>
-                <IconButton
-                    sx={{
-                        position: 'absolute',
-                        top: theme.spacing(1),
-                        right: theme.spacing(1),
-                    }}
-                    color={dark}
-                    onClick={handleDialogOpen}
-                >
-                    <EditIcon />
-                </IconButton>
+                {user && (
+                    <IconButton
+                        sx={{
+                            position: 'absolute',
+                            top: theme.spacing(1),
+                            right: theme.spacing(1),
+                        }}
+                        color={dark}
+                        onClick={handleDialogOpen}
+                    >
+                        <EditIcon />
+                    </IconButton>
+                )}
+
             </FlexBetween>
 
             <Dialog open={openDialog} onClose={handleDialogClose}>
@@ -291,7 +303,7 @@ const TitleImageWidget = () => {
                 </DialogActions>
             </Dialog>
 
-        </FlexBetween>
+        </Box>
     );
 };
 

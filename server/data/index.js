@@ -32,12 +32,24 @@ export const users = [
     updatedAt: 1115211422,
     __v: 0,
   },
+  {
+    _id: new mongoose.Types.ObjectId(),
+    firstName: "fake",
+    lastName: "man",
+    email: "fakeman@fake.com",
+    password: "$2b$10$7UdkCAqxbA2TAD/tlHH/ouol1qOPzlXyG1.O9DE.ebk121J7iy6dK",
+    picturePath: "2023-04-12 06_35_26-Photo in Wedding Photoshoot - Google Photos.png",
+    createdAt: 1115211422,
+    updatedAt: 1115211422,
+    __v: 0,
+  },
 ];
 
 export const posts = [
   {
     _id: new mongoose.Types.ObjectId(),
     blogPath: "README",
+    title: "Title Placeholder",
     description: "Some really long random description",
     picturePath: "post1.jpeg",
     likes: [
@@ -55,6 +67,7 @@ export const posts = [
   {
     _id: new mongoose.Types.ObjectId(),
     blogPath: "README",
+    title: "Title Placeholder",
     description:
       "Another really long random description. This one is longer than the previous one.",
     picturePath: "post2.jpeg",
@@ -74,6 +87,7 @@ export const posts = [
   {
     _id: new mongoose.Types.ObjectId(),
     blogPath: "README",
+    title: "Title Placeholder",
     description:
       "This is the last really long random description. This one is longer than the previous one.",
     picturePath: "post3.jpeg",
@@ -94,6 +108,7 @@ export const posts = [
   {
     _id: new mongoose.Types.ObjectId(),
     blogPath: "README",
+    title: "Title Placeholder",
     description:
       "This is the last really long random description. This one is longer than the previous one. Man I'm bored. I'm going to keep typing until I run out of things to say.",
     picturePath: "post4.jpeg",
@@ -114,6 +129,7 @@ export const posts = [
   {
     _id: new mongoose.Types.ObjectId(),
     blogPath: "README",
+    title: "Title Placeholder",
     description:
       "Just a short description. I'm tired of typing. I'm going to play video games now.",
     picturePath: "post5.jpeg",
@@ -134,6 +150,7 @@ export const posts = [
   {
     _id: new mongoose.Types.ObjectId(),
     blogPath: "README",
+    title: "Title Placeholder",
     description:
       "For the last time, I'm going to play video games now. I'm tired of typing. I'm going to play video games now.",
     picturePath: "post6.jpeg",

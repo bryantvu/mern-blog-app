@@ -68,7 +68,7 @@ const Navbar = () => {
             setIp(ipResponse);
             // console.log(`ip address >> ${ip}`);
         } catch (err) {
-            console.err(`err >> ${err}`);
+            console.error(`err >> ${err}`);
         }
 
     };
@@ -78,7 +78,7 @@ const Navbar = () => {
             anchorRef.current = event.currentTarget
             setAnchorEl(event.currentTarget);
         } catch (err) {
-            console.log(`err >> ${err}`);
+            console.error(`err >> ${err}`);
         }
     }
 
@@ -158,10 +158,28 @@ const Navbar = () => {
                         {!user ? (
                             <MenuItem onClick={() => navigate("/login")}>Login</MenuItem>
                         ) : (
-                            <MenuItem onClick={() => {
-                                handleAdminMenuClose();
-                                dispatch(setLogout());
-                            }}>Logout</MenuItem>
+                            [
+                                <MenuItem
+                                    key="logout"
+                                    onClick={() => {
+                                        handleAdminMenuClose();
+                                        dispatch(setLogout());
+                                    }}>
+                                    Logout
+                                </MenuItem>,
+                                <MenuItem
+                                    key="allPosts"
+                                    onClick={() => navigate("/posts")}
+                                >
+                                    All Posts
+                                </MenuItem>,
+                                <MenuItem
+                                    key="create"
+                                    onClick={() => navigate("/create")}
+                                >
+                                    New Post
+                                </MenuItem>,
+                            ]
                         )}
                         {/* <MenuItem onClick={handleAdminMenuClose}>Placeholder</MenuItem> */}
                     </FloatingMenu>

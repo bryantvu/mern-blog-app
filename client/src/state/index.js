@@ -37,14 +37,14 @@ export const authSlice = createSlice({
         setTitleState: (state, action) => {
             state.title = action.payload.newTitle;
         },
-        // setPost: (state, action) => {
-        //     console.log(`setPost >> ${action.payload.post}`);
-        //     const updatedPosts = state.posts.map((post) => {
-        //         if (post._id === action.payload.post._id) return action.payload.post;
-        //         return post;
-        //     });
-        //     state.posts = updatedPosts;
-        // },
+        setPost: (state, action) => {
+            console.log(`setPost >> ${action.payload.post}`);
+            const updatedPosts = state.posts.map((post) => {
+                if (post._id === action.payload.post._id) return action.payload.post;
+                return post;
+            });
+            state.posts = updatedPosts;
+        },
         setIpAddress: (state, action) => {
             state.ip = action.payload.ip;
         }

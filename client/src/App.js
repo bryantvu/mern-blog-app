@@ -8,6 +8,9 @@ import HomePage from 'scenes/homePage';
 import LoginPage from 'scenes/loginPage';
 // import ProfilePage from 'scenes/profilePage';
 import BlogPage from 'scenes/blogPage';
+import PostsPage from 'scenes/postsPage';
+import EditPage from 'scenes/editPage';
+import CreateBlogPage from 'scenes/createBlogPage';
 import { useMemo } from "react";
 import { useSelector } from 'react-redux';
 import { CssBaseline, ThemeProvider } from "@mui/material";
@@ -35,6 +38,18 @@ function App() {
             <Route
               path="/blog/:blogId"
               element={<BlogPage />}
+            />
+            <Route
+              path="/posts"
+              element={<PostsPage />}
+            />
+            <Route
+              path="/edit/:blogId"
+              element={<EditPage />}
+            />
+            <Route
+              path="/create"
+              element={<CreateBlogPage />}
             />
           </Routes>
         </ThemeProvider>

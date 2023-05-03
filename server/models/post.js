@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const postSchema = mongoose.Schema(
     {
         blogPath: String,
+        title: String,
         description: String,
         picturePath: String,
         likes: {

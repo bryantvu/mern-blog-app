@@ -21,6 +21,7 @@ const UserWidget = ({ userId, picturePath }) => {
     const dark = palette.neutral.dark;
     const medium = palette.neutral.medium;
     const main = palette.neutral.main;
+    const light = palette.primary.light;
 
     const getUser = async () => {
         try{
@@ -31,7 +32,7 @@ const UserWidget = ({ userId, picturePath }) => {
         const data = await response.json();
         setUser(data);
         }catch(err){
-            console.err(`err >> ${err}`);
+            console.error(`err >> ${err}`);
         }
     };
 
@@ -70,7 +71,7 @@ const UserWidget = ({ userId, picturePath }) => {
                             fontWeight="500"
                             sx={{
                                 "&:hover": {
-                                    color: palette.primary.light,
+                                    color: {light},
                                     cursor: "pointer"
                                 }
                             }}

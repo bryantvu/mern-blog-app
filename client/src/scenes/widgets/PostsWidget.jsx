@@ -6,55 +6,11 @@ import Grid from "@mui/material/Grid";
 import { Box, useMediaQuery } from "@mui/material";
 
 const PostsWidget = () => {
-    // const dispatch = useDispatch();
-    // const posts = useSelector((state) => state.post);
+    const dispatch = useDispatch();
+    const posts = useSelector((state) => state.posts);
     const token = useSelector((state) => state.token);
 
-    // Added state variable for fetched posts
-    const [fetchedPosts, setFetchedPosts] = useState(null);
-
     const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
-
-    // const returnPosts = (posts) => {
-    //     if (posts) {
-    //         return (
-    //             <Grid item xs={12}>
-    //                 <Grid container spacing={2}>
-    //                     {posts.map(
-    //                         ({
-    //                             _id,
-    //                             blogPath,
-    //                             description,
-    //                             picturePath,
-    //                             likes,
-    //                             comments,
-    //                         }) => (
-    //                             <Grid item xs={isNonMobileScreens ? 4 : 6} key={_id}>
-    //                                 <Box
-    //                                     sx={{
-    //                                         minHeight: '100px',
-    //                                         display: 'flex',
-    //                                         justifyContent: 'center',
-    //                                         alignItems: 'center',
-    //                                     }}
-    //                                 >
-    //                                     <PostWidget
-    //                                         postId={_id}
-    //                                         blogPath={blogPath}
-    //                                         description={description}
-    //                                         picturePath={picturePath}
-    //                                         likes={likes}
-    //                                         comments={comments}
-    //                                     />
-    //                                 </Box>
-    //                             </Grid>
-    //                         ))}
-    //                 </Grid>
-    //             </Grid>
-
-    //         )
-    //     }
-    // }
 
     const getPosts = async () => {
         try {
@@ -63,10 +19,10 @@ const PostsWidget = () => {
                 headers: { Authorization: `Bearer ${token}` },
             });
             const data = await response.json();
-            // dispatch(setPosts({ posts: data }));
-            setFetchedPosts(data);
+            dispatch(setPosts({ posts: data }));
+            [...data].sort((a,b)=> new Date(b.createdAt)-new Date(a.createdAt));
         } catch (err) {
-            console.err(`err >> ${err}`);
+            console.error(`err >> ${err}`);
         }
     };
 
@@ -77,10 +33,11 @@ const PostsWidget = () => {
     return (
         <Grid item xs={12}>
             <Grid container spacing={2}>
-                {fetchedPosts && fetchedPosts.map(
+                {posts && posts.map(
                     ({
                         _id,
                         blogPath,
+                        title,
                         description,
                         picturePath,
                         likes,
@@ -98,6 +55,7 @@ const PostsWidget = () => {
                                 <PostWidget
                                     postId={_id}
                                     blogPath={blogPath}
+                                    title={title}
                                     description={description}
                                     picturePath={picturePath}
                                     likes={likes}

@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 const PostWidget = ({
     postId,
     blogPath,
+    title,
     description,
     picturePath,
     likes,
@@ -34,6 +35,7 @@ const PostWidget = ({
 
     const main = palette.neutral.main;
     const primary = palette.primary.main;
+    const light = palette.primary.light;
 
     const isNonMobileScreens = useMediaQuery("(min-width: 1000px)");
 
@@ -45,16 +47,22 @@ const PostWidget = ({
                     Authorization: `Bearer ${token}`,
                     "Content-type": "application/json"
                 },
+                body: JSON.stringify({ip: {ip}})
             });
             const updatedPost = await response.json();
             dispatch(setPost({ post: updatedPost }));
         } catch (err) {
-            console.err(`err >> ${err}`);
+            console.error(`err >> ${err}`);
         }
     };
 
     return (
-        <WidgetWrapper>
+        <WidgetWrapper
+            // sx={{
+            //     height: `100%`,
+            //     display: `block`,
+            // }}
+        >
             <FlexBetween
                 overflow={isNonMobileScreens ? "hidden" : "visible"}
                 sx={{ maxHeight: isNonMobileScreens ? "300px" : "none", borderRadius: "0.75rem" }}
@@ -62,19 +70,23 @@ const PostWidget = ({
                 {picturePath && (
                     <img
                         onClick={() => {
-                            navigate(`/blog/${blogPath}`);
+                            navigate(`/blog/${postId}`);
                             // navigate(0);
                         }}
                         width="100%"
                         height="auto"
                         alt="post"
-                        style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
                         src={`http://localhost:3001/assets/${picturePath}`}
+                        style={{
+                            borderRadius: "0.75rem",
+                            // marginTop: "0.75rem",
+                            border: `1px solid ${light}`,
+                        }}
                     />
                 )}
             </FlexBetween>
             <Typography color={main} sx={{ fontWeight: "bold", fontSize: 17, mt: "0.5rem" }}>
-                Title Placeholder
+                {title}
             </Typography>
             <Typography color={main}>
                 {description}

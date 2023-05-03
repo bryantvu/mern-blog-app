@@ -16,6 +16,7 @@ import titleRoutes from "./routes/title.js"
 import { register } from "./controllers/auth.js";
 import { updateTitleHeader } from "./controllers/title.js";
 import { verifyToken } from "./middleware/auth.js";
+import { createPost } from "./controllers/posts.js";
 import User from "./models/users.js";
 import Post from "./models/post.js";
 import Title from "./models/title.js";
@@ -55,11 +56,12 @@ const upload = multer({ storage });
 
 /* ROUTES WITH FILES */
 app.post("/auth/register", upload.single("picture"), register);
-app.post("/title/update", upload.single("picture"), updateTitleHeader);
+app.post("/title/update", verifyToken, upload.single("picture"), updateTitleHeader);
+app.post("/post/create", verifyToken, upload.single("picture"), createPost);
 
 /* ROUTES */
 app.use("/auth", authRoutes);
-app.use("/title", titleRoutes);
+app.use("/title", verifyToken, titleRoutes);
 app.use("/users", userRoutes);
 app.use("/posts", postRoutes);
 

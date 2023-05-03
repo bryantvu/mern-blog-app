@@ -91,7 +91,7 @@ const Form = () => {
       );
       navigate("/");
     }
-    console.log(`login >> ${loggedIn.user}, ${loggedIn.token}`);
+    // console.log(`login >> ${loggedIn.user}, ${loggedIn.token}`);
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
